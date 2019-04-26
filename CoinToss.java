@@ -8,7 +8,7 @@ public int totalGames;
 public int totalWins;	
 public String directions="Let's play coin toss";
 private GetInput input= new GetInput();
-private Random rand= new Random()
+private Random rand= new Random();
 
 	public CoinToss(){
 
