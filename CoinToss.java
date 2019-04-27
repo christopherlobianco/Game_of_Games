@@ -18,12 +18,14 @@ public CoinToss(){
 
 public void launchGame(){
 	System.out.println(directions);
-	while(playGame()==1){ }
+	while(playGame()==1){
+	}
 
 }
 
 public int playGame(){
 	System.out.println("Let's play Coin Toss!");
+	totalGames++;
 	//get number of rounds
 	int rounds=input.getOddInt(
 		"Enter the number of rounds you'd like to play",
