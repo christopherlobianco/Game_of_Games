@@ -36,15 +36,12 @@ public class RedThread {
             for(int i=0; i<counter;i++) {
                 thread = bagOfThread.remove(rand.nextInt(track));
                 track--;
-                if(thread == 6) {
+                if (thread == 6) {
                     return true;
                 }
             }
-            return false;
         }
-
-
-        return
+        return false;
     }
 
     public void launchGame(){
