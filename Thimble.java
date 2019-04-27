@@ -15,7 +15,9 @@ public class Thimble {
     }
 
     public void directions(){
-        System.out.println("Directions here.");
+        System.out.println("Welcome to Find the Thimble! To play, you will" +
+                " choose the 'Best out of Number'. You will hae to guess the" +
+                " correct hand more than half of that number.");
     }
 
     public void launchGame(){
@@ -25,11 +27,12 @@ public class Thimble {
 
     public int playGame(){
         System.out.println("Guess which hand the Thimble is in!");
-        bestoutof = input.getOddInt("Enter the best out of number of games you would like to play: ",1,1000);
+        bestoutof = input.getOddInt("Please choose the 'Best out of Number (this number should be an odd" +
+                " number and not negative): ",1,1000);
+        totalGames++;
         while(bestoutof>0){
             bestoutof--;
-            totalGames++;
-            guess = input.getBinaryInput("Pick which hand you think the thimble is in: ","'0' for Left", "'1' for Right",0,1);
+            guess = input.getBinaryInput("To choose a hand, input: ","'1' for Left", "'2' for Right",1,2);
             if (guess == rand.nextInt(randcomp)){
                 System.out.println("You chose wisely!");
                 totalWins++;
