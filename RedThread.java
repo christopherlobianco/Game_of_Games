@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class RedThread {
 
-    private int num;
     private int numToPick;
     public int totalWins;
     public int totalGames;
@@ -17,7 +16,8 @@ public class RedThread {
     }
 
     public void directions(){
-        System.out.println("Directions here.");
+        System.out.println("Welcome to Find the Red Thread!");
+        System.out.println("You'll be pulling a number of spools of thread from a basket of 20 spools in the hopes that you pull out the red one!");
     }
     public LinkedList getBag(LinkedList list){
         int numCol = 19;
@@ -50,24 +50,25 @@ public class RedThread {
     }
 
     public int playGame(){
-        boolean compWin=false;
-        System.out.println("Try to pick out the Red Thread first!");
-        numToPick = input.getInt("Enter how many Threads you'd like to pick at once: ",1,20);
+        totalGames++;
+        numToPick = input.getInt("Please Choose a number for each pull, but make sure it's not more than 10: ",1,10);
         bagOfThread = getBag(bagOfThread);
         while(!bagOfThread.isEmpty()){
             turn=true;
-            if(pickSpools(bagOfThread,numToPick,turn)==true){
+            boolean result = pickSpools(bagOfThread,numToPick,turn);
+            if(result==true){
                 totalWins++;
                 System.out.println("You got the Red Thread!");
             }
             else{
                 turn=false;
-                compWin = pickSpools(bagOfThread,numToPick,turn);
+                result = pickSpools(bagOfThread,numToPick,turn);
+                if(result==true){
+                    System.out.println("The computer picked it first!");
+                }
             }
         }
-        if(compWin==true){
-            System.out.println("The computer picked it first!");
-        }
+
         System.out.println("End of Game.");
 
         //ask to play again
