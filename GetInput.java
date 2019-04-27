@@ -4,7 +4,6 @@
  * @version: 1.0 (04/24/19)
  */
 
-import jdk.internal.util.xml.impl.Input;
 
 import java.util.InputMismatchException;
 import java.util.LinkedList;
@@ -13,37 +12,36 @@ import java.util.Scanner;
 public class GetInput {
 
     //Fields
-    private Scanner scan;
 
     //Constructor
-    public GetInput() {
-        this.scan = new Scanner(System.in);
-    }
+    public GetInput() {}
 
     //Methods
 
     /*
-     * @param: String, String, String
+     * @param: String, char, char
      * @return: int
      * Method used to get a binary input (pick one of two choices) from user
      */
-    public int getBinaryInput(String directions, String option1, String option2) {
-        int validChoice = 0;
+    public char getBinaryInput(String directions, String option1, String option2, char character1, char character2) {
+        char validChoice = 'n';
+        Scanner scan = new Scanner(System.in);
+        scan.useDelimiter("");
         boolean validInput = false;
         while(!validInput) {
             System.out.println(directions);
-            System.out.println("1. " + option1);
-            System.out.println("2. " + option2);
-            System.out.print("Please make a choice now: ");
+            System.out.println("1. " + option1 + " (" + character1 + ")");
+            System.out.println("2. " + option2 + " (" + character2 + ")" );
+            System.out.print("Please enter the char of your choice now: ");
             try {
-                validChoice = scan.nextInt();
-                if((validChoice == 1)||(validChoice == 2)) {
+                validChoice = scan.next().charAt(0);
+                if((validChoice == character1)||(validChoice == character2)) {
                     return validChoice;
                 } else {
                     System.out.println("Invalid choice; please choose again");
                 }
             } catch(InputMismatchException e) {
-                System.out.println("Input not an integer");
+                System.out.println("Input not a character");
             }
             scan.nextLine();
         }
@@ -58,6 +56,7 @@ public class GetInput {
     public int getInt(String directions, int lowBound, int highBound) {
         int validInt = -1;
         boolean validInput = false;
+        Scanner scan = new Scanner(System.in);
         while(!validInput) {
             System.out.print(directions + ": ");
             try {
@@ -84,6 +83,7 @@ public class GetInput {
     public int getOddInt(String directions, int lowBound, int highBound) {
         int validInt = -1;
         boolean validInput = false;
+        Scanner scan = new Scanner(System.in);
         while(!validInput) {
             System.out.print(directions + ": ");
             try {
@@ -111,6 +111,7 @@ public class GetInput {
      */
     public boolean clickToContinue(String directions) {
         boolean returnValue = false;
+        Scanner scan = new Scanner(System.in);
         while(!returnValue) {
             System.out.print(directions + ": ");
             try {
@@ -125,30 +126,51 @@ public class GetInput {
 
     /*
      * @param: String, int, int, int
-     * @return: List<Integer>
+     * @return: int[]
      * Method used to get a list of integer inputs from the user
      */
-
-    /*
-    public LinkedList<Integer> getIntegerList(String directions, int numberGuesss, int lowBound, int highBound) {
-        LinkedList<Integer> outputList = new LinkedList<Integer>();
+    public int[] getInputList(String directions, String choice1, String choice2, char character1, char character2, int numberGuesses) {
+        int validChoice = -1;
+        int[] outputArray = new int[numberGuesses];
+        Scanner scan = new Scanner(System.in);
         boolean validInput = false;
         while(!validInput) {
-            System.out.println(directions + ": ");
+            System.out.println(directions);
+            System.out.println("1. " + choice1 + "(" + character1 + ")");
+            System.out.println("2. " + choice2 + "(" + character2 + ")");
+            System.out.println("Please enter your guesses now as char values separated by spaces: ");
+            String inputString = "";
             try {
-              while(scan.hasNextInt()) {
-                  outputList.add(scan.nextInt());
-                  if(outputList.size() == numberGuesss) {
-                      return outputList;
+                inputString = scan.nextLine();
+            }   catch(InputMismatchException e) {
+                System.out.println("Invalid input");
+            }
+            String[] stringArray = inputString.split(" ");
+            if(stringArray.length != numberGuesses) {
+                System.out.println("Invalid number of guesses");
+            } else {
+              int counter = numberGuesses;
+              for(int i = numberGuesses; i < 0; i++) {
+                  char currentChar = stringArray[i].charAt(0);
+                  if(currentChar == character1) {
+                      counter++;
+                      outputArray[i] = character1;
+                  } else if(currentChar == character2) {
+                      counter++;
+                      outputArray[i] = character2;
                   }
               }
-            } catch(InputMismatchException e) {
-                System.out.println("Input is not integer.");
+              if(counter == numberGuesses) {
+                  return outputArray;
+              } else {
+                  System.out.println("Invalid characters entered");
+              }
             }
         }
-        return outputList;
+        return outputArray;
     }
-    */
+
+
 
     /*
      * @param: None
@@ -160,13 +182,13 @@ public class GetInput {
         String directions = "Please enter an integer between 1 and 10";
         int thisInt = thisInput.getInt(directions, 1, 10);
         String directions2 = "Please choose heads or tails";
-        int thisInt2 = thisInput.getBinaryInput(directions2, "Heads", "Tails");
+        int thisInt2 = thisInput.getBinaryInput(directions2, "Heads", "Tails", 'h', 't');
         String directions3 = "Please enter an odd integer between 1 and 4";
         int thisInt3 = thisInput.getOddInt(directions3, 1, 4);
         String directions4 = "Please click any key to continue";
         boolean thisBool = thisInput.clickToContinue(directions4);
-        //String directions5 = "Please enter your guesses as integers, separated by spaces";
-        //LinkedList<Integer> outputList = thisInput.getIntegerList(directions5, 10,0, 100000);
+        String directions5 = "Please enter your guesses as integers, separated by spaces";
+        int[] outputList = thisInput.getInputList(directions5, "Heads", "Tails", 'h', 't', 5);
     }
 }
 
