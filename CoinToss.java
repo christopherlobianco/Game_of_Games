@@ -3,45 +3,62 @@ import java.util.Random;
 public class CoinToss{
 
 private int choice;
-private long flip;
+private int flip;
 public int totalGames;
-public int totalWins;	
-public String directions="Let's play coin toss";
+public int totalWins;
+private int maxRounds=10;	
+private String[] faces={"h","t"};
+public String directions="Welcome to Coin Toss";
 private GetInput input= new GetInput();
 private Random rand= new Random();
 
-	public CoinToss(){
+public CoinToss(){
 
-	}
+}
 
-	public void launchGame(){
-		System.out.println(directions);
-		while(playGame()==1){ }
+public void launchGame(){
+	System.out.println(directions);
+	while(playGame()==1){ }
 
-	}
+}
 
-	public int playGame(){
-
-		//get user choice
-		totalGames++;
-		choice = input.getBinaryInput("Enter your choice for the coin flip. ","0 for heads","1 for tails" );
-		//flip coin
-		flip=rand.nextInt(2);
-		System.out.print("Coin landed on ");
-
-		if (flip ==0 ){System.out.println("heads.");}
-		else{System.out.println("tails.");}
-		//check guess
-		if(flip==choice){
-			System.out.println("YOU WON");
+public int playGame(){
+	System.out.println("Let's play Coin Toss!");
+	//get number of rounds
+	int rounds=input.getOddInt(
+		"Enter the number of rounds you'd like to play",
+		1, //lowbound
+		maxRounds); //highbound
+	//get guesses
+	int[] guesses=input.getInputList("enter your guesses for each round in a space seperated list", 
+		"enter h for heads", 
+		"enter t for tails", 
+		'h', 
+		't',
+		rounds);
+	//play rounds
+	for(int i=0; i<rounds;i++){
+		//generate coin toss
+		flip= rand.nextInt(2);
+		//display result
+		System.out.print("The coin landed on ");
+		System.out.println(faces[flip]);
+		//compare guess
+		if(guesses[i]==flip){
+			System.out.println("You Won!");
 			totalWins++;
 		}
 		else{
-			System.out.println("YOU LOST");
+			System.out.println("You Lost");
 		}
-		//ask to play again
-		return input.getBinaryInput("Would you like to play again?","Enter 1 to play Coin Toss again", "Enter 0 to return to main menu");
-
+		
 	}
+	System.out.println("End of Game.");
+	//ask to play again
+	return input.getInt("Would you like to play again? \nEnter 1 to play Coin Toss again \nEnter 0 to return to main menu",0,1);
+
+}
+
+	
 
 }
