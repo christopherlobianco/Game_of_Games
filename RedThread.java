@@ -7,6 +7,7 @@ public class RedThread {
     private int numToPick;
     public int totalWins;
     public int totalGames;
+    public boolean turn;
     private GetInput input = new GetInput();
     LinkedList<Integer> bagOfThread = new LinkedList<Integer>;
     private Random rand = new Random();
@@ -27,30 +28,48 @@ public class RedThread {
         return list;
     }
 
+    private boolean pickSpools(LinkedList list, int num,boolean turn){
+        if((input.clickToContinue("Click to pick spool.") == true)||(turn==false)){
+            int counter = numToPick;
+            int track = counter;
+            int thread;
+            for(int i=0; i<counter;i++) {
+                thread = bagOfThread.remove(rand.nextInt(track));
+                track--;
+                if(thread == 6) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        return
+    }
+
     public void launchGame(){
         directions();
         while(playGame()==1){}
     }
 
     public int playGame(){
+        boolean compWin=false;
         System.out.println("Try to pick out the Red Thread first!");
         numToPick = input.getInt("Enter how many Threads you'd like to pick at once: ",1,20);
         bagOfThread = getBag(bagOfThread);
-        while(bagOfThread.size()>=numToPick){
-            if(input.clickToContinue() == true){
-                int counter = numToPick;
-                int track = counter;
-                int thread;
-                for(int i=0; i<counter;i++) {
-                    thread = bagOfThread.remove(rand.nextInt(track));
-                    track--;
-                    if(thread == 6){
-                        totalWins++;
-                        System.out.println("You Win!");
-                    }
-                }
+        while(!bagOfThread.isEmpty()){
+            turn=true;
+            if(pickSpools(bagOfThread,numToPick,turn)==true){
+                totalWins++;
+                System.out.println("You got the Red Thread!");
             }
-
+            else{
+                turn=false;
+                compWin = pickSpools(bagOfThread,numToPick,turn);
+            }
+        }
+        if(compWin==true){
+            System.out.println("The computer picked it first!");
         }
         System.out.println("End of Game.");
 
