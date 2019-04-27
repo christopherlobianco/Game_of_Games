@@ -7,47 +7,63 @@ private int userThrow;
 private int compThrow;
 public int totalGames;
 public int totalWins;	
+private int maxRounds=10;
+private int lowThrow=1;
+private int highThrow=5;
 public String directions="Welcome to Even or Odd";
 private GetInput input= new GetInput();
 private Random rand= new Random();
 
-	public EvenOdd(){
+public EvenOdd(){
 
-	}
+}
 
-	public void launchGame(){
-		System.out.println(directions);
-		while(playGame()==1){ }
+public void launchGame(){
+	System.out.println(directions);
+	while(playGame()==1){ }
 
-	}
+}
 
-	public int playGame(){
-
-		//get user choice
-		System.out.println("Let's play Even or Odd");
-		totalGames++;
-		guess = input.getBinaryInput("Enter your guess. ","0 for even","1 for odd" );
+public int playGame(){
+	//returns 1 if user would like to play again, 0 if not
+	System.out.println("Let's play Even or Odd!");
+	//get number of rounds
+	int bestof=input.getInt(
+		"Enter the number of rounds you'd like to play",
+		1,
+		maxRounds);
+	//get guesses
+	int[] guesses=input.getInputList("enter your guesses for each round in a space seperated list", 
+		"enter e for even", 
+		"enter o odd", 
+		'o', 
+		'e', 
+		bestof);
+	//play rounds
+	for(int i=0; i<bestof;i++){
 		//get user throw
-		userThrow= input.getInt("Enter number to throw", 0,5);
-		compThrow=rand.nextInt(6);
-		//show result
-		System.out.print("the computer threw a ");
+		int userThrow= input.getInt(
+			"Enter the number to throw.",
+			lowThrow,
+			highThrow);
+		//generate computer throw
+		compThrow=rand.nextInt(highThrow)+1;
+		System.out.print("The computer threw a ");
 		System.out.println(compThrow);
-		if ((userThrow+compThrow)%2 == 0 ){
-			System.out.print("the sum is even.");
-		}
-		else{System.out.print("the sum is odd.");}
-		//show winner
-		if ((userThrow+compThrow)%2 == guess ){
-			System.out.println("YOU WON");
+		//compare guess
+		if(guesses[i]%2==(compThrow+userThrow)%2){
+			System.out.println("You Won!");
 			totalWins++;
 		}
 		else{
-			System.out.println("YOU LOST");
+			System.out.println("You Lost");
 		}
-		//ask to play again
-		return input.getBinaryInput("Would you like to play again?","Enter 1 to play Even or Odd again", "Enter 0 to return to main menu");
-
+		
 	}
+	System.out.println("End of Game.");
+	//ask to play again
+	return input.getInt("Would you like to play again? \nEnter 1 to play Coin Toss again \nEnter 0 to return to main menu",0,1);
+
+}
 
 }
