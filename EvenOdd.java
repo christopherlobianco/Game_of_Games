@@ -27,6 +27,7 @@ public void launchGame(){
 public int playGame(){
 	//returns 1 if user would like to play again, 0 if not
 	System.out.println("Let's play Even or Odd!");
+	totalGames++;
 	//get number of rounds
 	int bestof=input.getInt(
 		"Enter the number of rounds you'd like to play",
