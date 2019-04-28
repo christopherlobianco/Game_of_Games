@@ -1,10 +1,8 @@
 /*
  * @filename: GetInput.java
  * @author: Christopher LoBianco
- * @version: 1.0 (04/24/19)
+ * @version: 2.0 (04/28/19)
  */
-
-
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -26,7 +24,6 @@ public class GetInput {
     public char getBinaryInput(String directions, String option1, String option2, char character1, char character2) {
         char validChoice = 'n';
         Scanner scan = new Scanner(System.in);
-        scan.useDelimiter("");
         boolean validInput = false;
         while(!validInput) {
             System.out.println(directions);
@@ -34,11 +31,16 @@ public class GetInput {
             System.out.println("2. " + option2 + " (" + character2 + ")" );
             System.out.print("Please enter the char of your choice now: ");
             try {
-                validChoice = scan.next().charAt(0);
-                if((validChoice == character1)||(validChoice == character2)) {
-                    return validChoice;
+                String inputString  = scan.next().toLowerCase();
+                if(inputString.length() != 1) {
+                    System.out.println("Invalid input; please choose again");
                 } else {
-                    System.out.println("Invalid choice; please choose again");
+                    validChoice = inputString.charAt(0);
+                    if((validChoice == character1)||(validChoice == character2)) {
+                        return validChoice;
+                    } else {
+                        System.out.println("Invalid choice; please choose again");
+                    }
                 }
             } catch(InputMismatchException e) {
                 System.out.println("Input not a character");
@@ -51,7 +53,7 @@ public class GetInput {
     /*
      * @param: String, int, int
      * @return: int
-     * Method used to get an integer value input from the user
+     * Method used to get an integer value input from the user, where bounds are inclusive
      */
     public int getInt(String directions, int lowBound, int highBound) {
         int validInt = -1;
@@ -78,7 +80,7 @@ public class GetInput {
     /*
      * @param: String, int, int
      * @return: int
-     * Method used to get an odd integer value input from the user
+     * Method used to get an odd integer value input from the user, where bounds are inclusive
      */
     public int getOddInt(String directions, int lowBound, int highBound) {
         int validInt = -1;
@@ -127,7 +129,7 @@ public class GetInput {
     /*
      * @param: String, int, int, int
      * @return: int[]
-     * Method used to get a list of integer inputs from the user
+     * Method used to get a list of binary inputs from the user
      */
     public int[] getInputList(String directions, String choice1, String choice2, char character1, char character2, int numberGuesses) {
         int validChoice = -1;
@@ -138,10 +140,9 @@ public class GetInput {
             System.out.println(directions);
             System.out.println("1. " + choice1 + "(" + character1 + ")");
             System.out.println("2. " + choice2 + "(" + character2 + ")");
-            System.out.println("Please enter your guesses now as char values separated by spaces: ");
             String inputString = "";
             try {
-                inputString = scan.nextLine();
+                inputString = scan.nextLine().toLowerCase();
             }   catch(InputMismatchException e) {
                 System.out.println("Invalid input");
             }
@@ -149,8 +150,8 @@ public class GetInput {
             if(stringArray.length != numberGuesses) {
                 System.out.println("Invalid number of guesses");
             } else {
-              int counter = numberGuesses;
-              for(int i = numberGuesses; i < 0; i++) {
+              int counter = 0;
+              for(int i = 0; i < numberGuesses; i++) {
                   char currentChar = stringArray[i].charAt(0);
                   if(currentChar == character1) {
                       counter++;
@@ -170,6 +171,61 @@ public class GetInput {
         return outputArray;
     }
 
+    /*
+     * @param: String, int, int
+     * @return: int[]
+     * This method is used to get a list of integer values
+     */
+    public int[] getArrayInt(String directions, int lowerBound, int upperBound, int numberGuesses) {
+        System.out.println(directions);
+        int[] outputArray = new int[numberGuesses];
+        Scanner scan = new Scanner(System.in);
+        boolean validInput = false;
+        while(!validInput) {
+            LinkedList<Integer> existingValues = new LinkedList<Integer>();
+            System.out.println("Please enter int values separated by spaces");
+            String inputString = "";
+            try {
+              inputString = scan.nextLine();
+            } catch(InputMismatchException e) {
+                System.out.println("Invalid values entered");
+            }
+            String[] stringArray = inputString.split(" ");
+            if(stringArray.length != numberGuesses) {
+                System.out.println("Invalid number of guesses");
+            }
+            else {
+              int counter = 0;
+              boolean duplicateValues = false;
+              for(int i = 0; i < numberGuesses; i++) {
+                  try {
+                      int currentInt = Integer.parseInt(stringArray[i]);
+                      if((currentInt <= upperBound)&& (currentInt >= lowerBound)) {
+                          if(!existingValues.contains(currentInt)) {
+                              outputArray[i] = currentInt;
+                              existingValues.add(currentInt);
+                              counter++;
+                          } else {
+                              duplicateValues = true;
+                          }
+                      }
+                  } catch(NumberFormatException e) {
+                      i = numberGuesses;
+                  }
+              }
+              if(counter == numberGuesses) {
+                  return outputArray;
+              } else {
+                  if(duplicateValues) {
+                      System.out.println("You have entered duplicate values");
+                  } else {
+                      System.out.println("Invalid values entered");
+                  }
+              }
+            }
+        }
+        return outputArray;
+    }
 
 
     /*
@@ -187,8 +243,11 @@ public class GetInput {
         int thisInt3 = thisInput.getOddInt(directions3, 1, 4);
         String directions4 = "Please click any key to continue";
         boolean thisBool = thisInput.clickToContinue(directions4);
-        String directions5 = "Please enter your guesses as integers, separated by spaces";
+        String directions5 = "Please enter your guesses as characters, separated by spaces";
         int[] outputList = thisInput.getInputList(directions5, "Heads", "Tails", 'h', 't', 5);
+        String direction6 = "Please enter your guesses as integers, separated by spaces";
+        int[] outputArray = thisInput.getArrayInt(direction6, 1,10,5);
     }
 }
+
 
