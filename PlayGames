@@ -1,0 +1,139 @@
+/*
+ * @filename: PlayGames.java
+ * @author: Christopher LoBianco
+ * @version: 1.0 (04/24/19)
+ */
+
+public class PlayGames {
+
+    //Fields
+    private CoinToss coinTossApp;
+    private GuessTheNumber guessNumberApp;
+    private EvenOdd evenOddApp;
+    private RedThread findThreadApp;
+    private Thimble findThimbleApp;
+    private GetInput getInputApp;
+
+    //Constructor
+    public PlayGames() {
+        this.coinTossApp = new CoinToss();
+        this.guessNumberApp = new GuessTheNumber();
+        this.evenOddApp = new EvenOdd();
+        this.findThreadApp = new RedThread();
+        this.findThimbleApp = new Thimble();
+        this.getInputApp = new GetInput();
+    }
+
+    //Methods
+
+    /*
+     * @param: None
+     * @return: None
+     * This method is used to run the Game of Games
+     */
+    public void runApplication() {
+        System.out.println("Welcome to the Game of Games");
+        int userChoice = 0;
+        while(userChoice != 6) {
+            printMenu();
+            String directions = "Enter the int of your choice now: ";
+            userChoice = getInputApp.getInt(directions, 1,6);
+            switch (userChoice) {
+                case 1: System.out.println("Launching Find the Thimble...");
+                        System.out.println("****************************************************************");
+                        findThimbleApp.launchGame();
+                        System.out.println("****************************************************************");
+                        break;
+                case 2: System.out.println("Launching Coin Toss...");
+                        System.out.println("****************************************************************");
+                        coinTossApp.launchGame();
+                        System.out.println("****************************************************************");
+                        break;
+                case 3: System.out.println("Launching Guess the Number...");
+                        System.out.println("**************************************************************");
+                        guessNumberApp.launchGame();
+                        System.out.println("**************************************************************");
+                        break;
+                case 4: System.out.println("Launching Even or Odd...");
+                        System.out.println("****************************************************************");
+                        evenOddApp.launchGame();
+                        System.out.println("****************************************************************");
+                        break;
+                case 5: System.out.println("Launching Find the Red Thread...");
+                        System.out.println("****************************************************************");
+                        findThreadApp.launchGame();
+                        System.out.println("****************************************************************");
+                        break;
+                case 6: System.out.println("Exiting the system....");
+                        break;
+            }
+        }
+        exitSystem();
+    }
+
+    /*
+     * @param: None
+     * @return: None
+     * This method is used to print the main menu
+     */
+    private void printMenu() {
+        System.out.println("The Game of Games");
+        System.out.println("   1. Find the Thimble      Total Played: " + findThimbleApp.totalGames +
+                ", Won: " + findThimbleApp.totalWins + ", Lost: " + (findThimbleApp.totalGames-findThimbleApp.totalWins));
+        System.out.println("   2. Coin Toss             Total Played: " + coinTossApp.totalGames +
+                ", Won: " + coinTossApp.totalWins + ", Lost: " + (coinTossApp.totalGames-coinTossApp.totalWins));
+        System.out.println("   3. Guess the Number      Total Played: " + guessNumberApp.getNumRounds() +
+                ", Won: " + guessNumberApp.getScore() + ", Lost: " + (guessNumberApp.getNumRounds()-guessNumberApp.getScore()));
+        System.out.println("   4. Even or Odd           Total Played: " + evenOddApp.totalGames +
+                ", Won: " + evenOddApp.totalWins + ", Lost: " + (evenOddApp.totalGames-evenOddApp.totalWins));
+        System.out.println("   5. Red Thread            Total Played: " + findThreadApp.totalGames +
+                ", Won: " + findThreadApp.totalWins + ", Lost: " + (findThreadApp.totalGames- findThreadApp.totalWins));
+        System.out.println("Please input the number of the game you wish to play or input '6' to quit the game " +
+                "and view your final scores.");
+    }
+
+    /*
+     * @param: None
+     * @return: None
+     * This method is used to exit the system
+     */
+    private void exitSystem() {
+        System.out.println("The Game of Games");
+        System.out.println("   1. Find the Thimble      Total Played: " + findThimbleApp.totalGames +
+                ", Won: " + findThimbleApp.totalWins + ", Lost: " + (findThimbleApp.totalGames-findThimbleApp.totalWins));
+        System.out.println("   2. Coin Toss             Total Played: " + coinTossApp.totalGames +
+                ", Won: " + coinTossApp.totalWins + ", Lost: " + (coinTossApp.totalGames-coinTossApp.totalWins));
+        System.out.println("   3. Guess the Number      Total Played: " + guessNumberApp.getNumRounds() +
+                ", Won: " + guessNumberApp.getScore() + ", Lost: " + (guessNumberApp.getNumRounds()-guessNumberApp.getScore()));
+        System.out.println("   4. Even or Odd           Total Played: " + evenOddApp.totalGames +
+                ", Won: " + evenOddApp.totalWins + ", Lost: " + (evenOddApp.totalGames-evenOddApp.totalWins));
+        System.out.println("   5. Red Thread            Total Played: " + findThreadApp.totalGames +
+                ", Won: " + findThreadApp.totalWins + ", Lost: " + (findThreadApp.totalGames- findThreadApp.totalWins));
+        int numberPlayed = findThimbleApp.totalGames + coinTossApp.totalGames +
+                evenOddApp.totalGames + findThreadApp.totalGames;
+        int numberWon = findThimbleApp.totalWins + coinTossApp.totalWins +
+                evenOddApp.totalWins + findThreadApp.totalWins;
+        int numberLost = numberPlayed-numberWon;
+        System.out.println("All Games                   TOTAL Played: " + numberPlayed +
+                ", Won: " + numberWon + ", Lost: " + numberLost);
+        int compareWins = numberWon - numberLost;
+        if(compareWins > 0) {
+            System.out.println("You have won more games than you lost.");
+        } else if(compareWins == 0) {
+            System.out.println("You have lost more games than you won.");
+        } else {
+            System.out.println("Your wins and losses were equal");
+        }
+    }
+
+    /*
+     * @param: None
+     * @return: None
+     * Main Method
+     */
+    public static void main(String args[]) {
+        PlayGames thisGame = new PlayGames();
+        thisGame.runApplication();
+    }
+
+}
