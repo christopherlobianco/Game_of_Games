@@ -72,18 +72,6 @@ public int playGame(){
 	return input.getInt("Would you like to play again? \nEnter 1 to play Coin Toss again \nEnter 0 to return to main menu",0,1);
 
 }
-
-
-
-
-public static void main(String argv[]){
-	CoinToss game= new CoinToss();
-	game.launchGame();
-	System.out.print("total wins ");
-	System.out.println(game.totalWins);
-	System.out.print("total games ");
-	System.out.println(game.totalGames);
-}
 	
 
 }
