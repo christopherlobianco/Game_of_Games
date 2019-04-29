@@ -14,88 +14,100 @@ public class GuessTheNumberTesting{
    
     private int score=0;//averall score
     private int playerscore=0; //score for each guess
+    private int compscore=0;
     private int rounds=0;//number of rounds played
     
-    private int lowerBound=getIntInput("lowerBound"); 
-    private int upperBound=getIntInput("upperBound");
-    private int numGuesses=getIntInput("numGuesses");//number of guesses 
+    private int lowerBound; 
+    private int upperBound;
+    private int numGuesses;//number of guesses 
     
     private int[] guesses; //array with the guesses
     
     //Constructor
     public GuessTheNumberTesting(){
-      int temp=getIntInput("guesses");
+     //directions
+     System.out.println("Welcome to Guess The Number!");
+     System.out.println("To play input a lower bound and an upper bound. ");
+     System.out.println("Then enter the number of guesses you want to have");
+     System.out.println("You will then input your integer guesses separated by a spaces");
+     System.out.println(" ");
+     
+     lowerBound=getIntInput("lowerBound"); 
+     upperBound=getIntInput("upperBound");
+     numGuesses=getIntInput("numGuesses");  
+     
     
     }
    
     /*
-     * calls playGuess and checks who won and updates the score
-     * @return: int indicating whether to replay Guess the number
+     * calls playGame and checks who won and updates the score     
      */ 
-    public int launch(){
-      
-      //directions
-      System.out.println("Welcome to Guess The Number!");
-      System.out.println("To play input a lower bound and an upper bound. ");
-      System.out.println("Then enter the number of guesses you want to have");
-      System.out.println("You will then input your integer guesses separated by a spaces");
-      System.out.println(" ");
-      
-      rounds++;
-      int n=0; //num rounds played
-      int compscore=0;
-      while(n<numGuesses){
-        System.out.println("player guessed: "+guesses[n]);
-        if(playGuess(guesses[n])==1){//see input class
-          System.out.println("Correct!");
-          playerscore++;
-          if(playerscore>=((numGuesses/2)+1)){
-             score++;
-             System.out.println("You won this round");
-             break;
-          }
-             
-          else if (compscore>=((numGuesses/2)+1)){
-            System.out.println("You lost this round"); 
-            break;
-          }
-        }
-        else{
-          System.out.println("Wrong guess!");
-          compscore++;
-          if(playerscore>=((numGuesses/2)+1)){
-             System.out.println("You won this round");
-             break;
-          }
-          else if (compscore>=((numGuesses/2)+1)){
-            System.out.println("You lost this round");
-            break;
-          }
-        }
-        n++;
-      }
-      return getIntInput("replay");
-      
+    public void launchGame(){     
+      playGame();//loop through the array of guesses        
+           
     }
     
     /*
      * checks if user guessed correctly 
-     * @param: g, accepting the guess
      * @return:   int indicating who won
      */
-    public int playGuess(int g){
+    public int playGame(){
+       getIntInput("guesses");
        Random r= new Random();
-       int guess=r.nextInt(((upperBound-lowerBound)+1)+lowerBound);
-      System.out.println("Computer Number: "+guess);
-      if(g==guess){
-         int win=1;
-         return win;}
-      else{
-        int lose=0;
-         return lose;
-      }
+       int n=0;
+       while(n<numGuesses){
+         int guess=r.nextInt(((upperBound-lowerBound)+1)+lowerBound);
+         System.out.println("Guessed: "+guesses[n]);
+         System.out.println("Computer Number: "+guess);
+         //correct guess
+         if(guesses[n]==guess){
+           System.out.println("Correct!");
+           playerscore++;
+           if(playerscore>=((numGuesses/2)+1)){
+             playerscore=0;
+             compscore=0;
+             score++;
+             rounds++;
+             System.out.println("You won this round");
+             int replay=getIntInput("replay"); 
+             if(replay==1){  
+               lowerBound=getIntInput("lowerBound"); 
+               upperBound=getIntInput("upperBound");
+               numGuesses=getIntInput("numGuesses");
+               launchGame();
+               }
+               else return 0;
+           }
+         }
+         
+         else{
+           System.out.println("Wrong!");
+           compscore++;        
+           if (compscore>=((numGuesses/2)+1)){
+              playerscore=0;
+              compscore=0;
+              rounds++;
+             System.out.println("You lost this round"); 
+             int replay=getIntInput("replay"); 
+             if(replay==1){  
+               lowerBound=getIntInput("lowerBound"); 
+               upperBound=getIntInput("upperBound");
+               numGuesses=getIntInput("numGuesses");
+               launchGame();
+             }
+             else return 0;
+           }
+         }
+         n++;
+       }
+       return 0;
     }
-
+             
+           
+        
+     
+         
+      
     /*
      * gets input from the class getInput
      * @param: var, accepting the input message/directions
@@ -123,9 +135,9 @@ public class GuessTheNumberTesting{
       else if(var.equals("guesses")){
         int start=0;
         guesses=new int[numGuesses];
-        System.arraycopy(input.getArrayInt("Enter your guesses", lowerBound, upperBound),start, guesses,start,numGuesses-1);        
+        System.arraycopy(input.getArrayInt("Enter your guesses ", lowerBound, upperBound),start, guesses,start,numGuesses-1);        
         while((numGuesses==0)||(guesses.length>numGuesses)||(numGuesses<guesses.length))
-           System.arraycopy(input.getArrayInt("Error: re-enter your guesses", lowerBound, upperBound),start, guesses,start,numGuesses-1);
+           System.arraycopy(input.getArrayInt("Error: re-enter your guesses ", lowerBound, upperBound),start, guesses,start,numGuesses-1);
         return 0;
       }
       else if(var.equals("replay")){
@@ -133,10 +145,9 @@ public class GuessTheNumberTesting{
           String optionone="Enter 1 to play Guess the Number again, ";
           String optiontwo="Enter 0 to return to main menu";
         int toreturn=input.getBinaryInput(directions,optionone, optiontwo);
-        while((toreturn<0)||(toreturn>1)){         
+        while((toreturn<0)||(toreturn>1))       
           toreturn=input.getBinaryInput(directions,optionone,optiontwo);
-        return toreturn;
-        }
+        return toreturn;        
       }
       return 0;
 
