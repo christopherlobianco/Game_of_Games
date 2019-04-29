@@ -1,8 +1,9 @@
 /*
  * @filename: GetInput.java
  * @author: Christopher LoBianco
- * @version: 2.0 (04/28/19)
+ * @version: 2.0 (04/29/19)
  */
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -21,8 +22,8 @@ public class GetInput {
      * @return: int
      * Method used to get a binary input (pick one of two choices) from user
      */
-    public char getBinaryInput(String directions, String option1, String option2, char character1, char character2) {
-        char validChoice = 'n';
+    public int getBinaryInput(String directions, String option1, String option2, char character1, char character2) {
+        char validChoice;
         Scanner scan = new Scanner(System.in);
         boolean validInput = false;
         while(!validInput) {
@@ -36,8 +37,10 @@ public class GetInput {
                     System.out.println("Invalid input; please choose again");
                 } else {
                     validChoice = inputString.charAt(0);
-                    if((validChoice == character1)||(validChoice == character2)) {
-                        return validChoice;
+                    if(validChoice == character1) {
+                        return 1;
+                    } else if(validChoice == character2) {
+                        return 2;
                     } else {
                         System.out.println("Invalid choice; please choose again");
                     }
@@ -47,7 +50,7 @@ public class GetInput {
             }
             scan.nextLine();
         }
-        return validChoice;
+        return 0;
     }
 
     /*
@@ -60,7 +63,7 @@ public class GetInput {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
         while(!validInput) {
-            System.out.print(directions + ": ");
+            System.out.print(directions);
             try {
                 validInt = scan.nextInt();
                 if((validInt < lowBound)||(validInt > highBound)) {
@@ -87,7 +90,7 @@ public class GetInput {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
         while(!validInput) {
-            System.out.print(directions + ": ");
+            System.out.print(directions);
             try {
                 validInt = scan.nextInt();
                 if((validInt < lowBound)||(validInt > highBound)) {
@@ -155,10 +158,10 @@ public class GetInput {
                   char currentChar = stringArray[i].charAt(0);
                   if(currentChar == character1) {
                       counter++;
-                      outputArray[i] = character1;
+                      outputArray[i] = 1;
                   } else if(currentChar == character2) {
                       counter++;
-                      outputArray[i] = character2;
+                      outputArray[i] = 2;
                   }
               }
               if(counter == numberGuesses) {
@@ -227,7 +230,6 @@ public class GetInput {
         return outputArray;
     }
 
-
     /*
      * @param: None
      * @return: None
@@ -245,9 +247,11 @@ public class GetInput {
         boolean thisBool = thisInput.clickToContinue(directions4);
         String directions5 = "Please enter your guesses as characters, separated by spaces";
         int[] outputList = thisInput.getInputList(directions5, "Heads", "Tails", 'h', 't', 5);
+        System.out.println(Arrays.toString(outputList));
         String direction6 = "Please enter your guesses as integers, separated by spaces";
         int[] outputArray = thisInput.getArrayInt(direction6, 1,10,5);
     }
 }
+
 
 
