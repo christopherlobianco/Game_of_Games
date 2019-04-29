@@ -41,7 +41,7 @@ public int playGame(){
 	//play rounds
 	for(int i=0; i<rounds;i++){
 		//generate coin toss
-		flip= rand.nextInt(2);
+		flip= rand.nextInt(2)+1;
 		//display result
 		System.out.print("The coin landed on ");
 		System.out.println(faces[flip]);
