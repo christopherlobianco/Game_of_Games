@@ -32,18 +32,29 @@ public class GuessTheNumber{
      System.out.println("You will then input your integer guesses separated by a spaces");
      System.out.println(" ");
      
-     lowerBound=getIntInput("lowerBound"); 
-     upperBound=getIntInput("upperBound");
-     numGuesses=getIntInput("numGuesses");  
      
-    
     }
    
     /*
      * calls playGame and checks who won and updates the score     
      */ 
-    public void launchGame(){     
-      playGame();//loop through the array of guesses        
+    public void launchGame(){  
+      lowerBound=getIntInput("lowerBound"); 
+      upperBound=getIntInput("upperBound");
+      numGuesses=getIntInput("numGuesses");  
+     
+    
+      playGame();//loop through the array of guesses  
+      int replay=getIntInput("replay");
+      while(replay==1){
+         lowerBound=getIntInput("lowerBound"); 
+         upperBound=getIntInput("upperBound");
+         numGuesses=getIntInput("numGuesses");
+                 
+        playGame();
+        replay=getIntInput("replay");
+      
+      }
            
     }
     
@@ -69,14 +80,7 @@ public class GuessTheNumber{
              score++;
              rounds++;
              System.out.println("You won this round");
-             int replay=getIntInput("replay"); 
-             if(replay==1){  
-               lowerBound=getIntInput("lowerBound"); 
-               upperBound=getIntInput("upperBound");
-               numGuesses=getIntInput("numGuesses");
-               launchGame();
-               }
-               else return 0;
+             break;
            }
          }
          
@@ -86,15 +90,9 @@ public class GuessTheNumber{
               playerscore=0;
               compscore=0;
               rounds++;
-             System.out.println("You lost this round"); 
-             int replay=getIntInput("replay"); 
-             if(replay==1){  
-               lowerBound=getIntInput("lowerBound"); 
-               upperBound=getIntInput("upperBound");
-               numGuesses=getIntInput("numGuesses");
-               launchGame();
-             }
-             else return 0;
+             System.out.println("You lost this round");  
+             break;
+             
            }
          }
          n++;
