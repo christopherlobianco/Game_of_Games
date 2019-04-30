@@ -1,7 +1,7 @@
 /*
  * @filename: PlayGames.java
  * @author: Christopher LoBianco
- * @version: 1.0 (04/24/19)
+ * @version: 2.0 (04/29/19)
  */
 
 public class PlayGames {
@@ -34,11 +34,11 @@ public class PlayGames {
     public void runApplication() {
         System.out.println("Welcome to the Game of Games");
         int userChoice = 0;
-        while(userChoice != 6) {
-            printMenu();
-            String directions = "Enter the int of your choice now: ";
-            userChoice = getInputApp.getInt(directions, 1,6);
-            switch (userChoice) {
+        while(userChoice != 6) {                                                    //While user doesn't want to exit
+            printMenu();                                                            //Print main menu
+            String directions = "Enter the int of your choice now: ";               //Print directions
+            userChoice = getInputApp.getInt(directions, 1,6);   //Get user choice
+            switch (userChoice) {                                                   //Act on user choice
                 case 1: System.out.println("Launching Find the Thimble...");
                         System.out.println("****************************************************************");
                         findThimbleApp.launchGame();
@@ -68,7 +68,7 @@ public class PlayGames {
                         break;
             }
         }
-        exitSystem();
+        exitSystem();                                                              //Exit if user choose to exit
     }
 
     /*
