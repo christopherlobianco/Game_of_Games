@@ -52,7 +52,11 @@ public class RedThread {
                 }
                 else {
                     thread = bagOfThread.remove(rand.nextInt(track));
-                    System.out.println(track + " " + thread);
+                    String currentThread = "Not red";
+                    if(thread == 6) {
+                        currentThread = "Red";
+                    }
+                    System.out.println(track + ". " + currentThread);
                     track--;
                     if (thread == 6) {
                         return true;
@@ -70,6 +74,7 @@ public class RedThread {
 
     public int playGame(){
         totalGames++;
+        endGame = false;
         numToPick = input.getInt("Please Choose a number for each pull, " +
                 "but make sure it's not more than 10",1,10);
         bagOfThread = getBag(bagOfThread);
@@ -97,12 +102,11 @@ public class RedThread {
                 }
             }
         }
-
         System.out.println("End of Game.");
 
         //ask to play again
 
-        return input.getInt("Would you like to play again? \nEnter 1 to play Coin Toss again \nEnter 0 to return to main menu",0,1);
+        return input.getInt("Would you like to play again? \nEnter 1 to play Find the Red Thread again \nEnter 0 to return to main menu",0,1);
     }
 
 //    public static void main(String args[]) {
