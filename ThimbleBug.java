@@ -1,13 +1,13 @@
 /*
- * @filename: ThimbleTest.java
+ * @filename: ThimbleBug.java
  * @author: Alison Adamski
  * @version: 2.0 (04/30/19)
- * This method contains print statements displaying the computers move for test purposes
+ * This method contains three bugs and is used for debug evaluation
  */
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ThimbleTest {
+public class ThimbleBug {
 
     //Fields
     private int guess;
@@ -17,8 +17,9 @@ public class ThimbleTest {
     private int bestoutof;
     private GetInput input = new GetInput();
 
+
     //Constructor
-    public ThimbleTest(){
+    public ThimbleBug(){
     }
 
     //Methods
@@ -46,7 +47,7 @@ public class ThimbleTest {
     /*
      * @param: None
      * @return: int
-     * Method used to play one game of Thimble
+     * Method used to play one game of thimble
      */
     public int playGame(){
         System.out.println("Guess which hand the Thimble is in!");
@@ -58,7 +59,7 @@ public class ThimbleTest {
         while(bestoutof>0){
             bestoutof--;
             int computer = ThreadLocalRandom.current().nextInt(1,3);
-            System.out.println("{The computer will pick: "+ computer + "}");
+            //System.out.println("Correct Answer: "+ computer);
             guess = input.getBinaryInput("To choose a hand, input: ","'1' for Left", "'2' for Right",'1','2');
             if (guess == computer){
                 System.out.println("You chose wisely!");
@@ -80,4 +81,6 @@ public class ThimbleTest {
 
         return input.getInt("Would you like to play again? \nEnter 1 to play Find the Thimble again \nEnter 0 to return to main menu",0,1);
     }
+
+
 }
